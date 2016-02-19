@@ -1,0 +1,6 @@
+language: go
+go:
+ - 1.6
+ - tip
+install: go get -v ./whmcs_go
+script: go test -v ./whmcs_go
