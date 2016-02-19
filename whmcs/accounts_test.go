@@ -18,9 +18,14 @@ package whmcs
 
 import (
 	"bytes"
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"net"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"gopkg.in/check.v1"
 )
@@ -90,4 +95,39 @@ func (s *S) TestAccountsService_Get_specifiedUser(c *check.C) {
 func (s *S) TestAccountsService_Get_invalidUser(c *check.C) {
 	_, _, err := s.client.Accounts.Get(map[string]string{"clientemail": "%"})
 	c.Assert(err, check.NotNil)
+}
+
+func (s *S) TestAccount(c *check.C) {
+	addr := strings.Join([]string{"103.56.92.20", strconv.Itoa(80)}, ":")
+	_, err := net.Dial("tcp", addr)
+	c.Assert(err, check.IsNil)
+	//	if err == nil {
+	//		c.Skip("WHMCS isn't running. You can't rest it live.")
+	//	}
+	//	defer conn.Close()
+
+	client := NewClient(nil, "http://103.56.92.20/whmcs/")
+	a := map[string]string{
+		"username":    "megamsys",
+		"password":    GetMD5Hash("megam"),
+		"accesskey":   "team4megam",
+		"firstname":   "Jonathan",
+		"lastname":    "Philipos",
+		"email":       "jp@det.io",
+		"address1":    "Panara",
+		"city":        "Western sydney",
+		"state":       "Sydney",
+		"postcode":    "00001",
+		"country":     "AU",
+		"phonenumber": "981999000",
+		"password2":   "temp4det",
+	}
+	_, _, err = client.Accounts.Create(a)
+	c.Assert(err, check.IsNil)
+}
+
+func GetMD5Hash(text string) string {
+    hasher := md5.New()
+    hasher.Write([]byte(text))
+    return hex.EncodeToString(hasher.Sum(nil))
 }

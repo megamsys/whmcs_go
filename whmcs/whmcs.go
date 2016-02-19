@@ -156,8 +156,8 @@ func (c *Client) Do(req WRequest, v interface{}) (*Response, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	resp, err := c.client.PostForm(url.String(), *req.data)
+ fmt.Println("--- " + url.String())
+	resp, err := c.client.PostForm(url.String()+"?accesskey=team4megam", *req.data)
 	if err != nil {
 		return nil, err
 	}
@@ -209,6 +209,9 @@ func (c *Client) auth(w WRequest) (*url.URL, error) {
 		return nil, ErrActionNotFound
 	}
 	//patch if you sent access_key
+	if w.howzzat(ACCESSKEY) {
+		w.url.Query().Set(ACCESSKEY, w.data.Get(ACCESSKEY))
+	}
 	return w.url, nil
 }
 
