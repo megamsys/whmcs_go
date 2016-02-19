@@ -62,14 +62,11 @@ For complete usage of whmcs, see the full [package docs][].
 
 The supported API are
 
-* clients
-- Add, Update, Suspend
+* clients `[Add, Update, Suspend]`
 
-* orders
-- List, Get, Create
+* orders `[List, Get, Create]`
 
-* billableitem
-- Create
+* billableitem `[Create]`
 
 We will keep adding more as we go along, adding an API is very easy.
 
