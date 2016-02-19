@@ -19,7 +19,7 @@ access different parts of the WHMCS API.
 
 WHMCS supports two ways of authentication
 
-Pass the variables using the Key USERNAME, PASSWORD (or) ACCCESSKEY in a map.
+You can either pass the variables using the Key USERNAME, PASSWORD (or) ACCCESSKEY in a map.
 
 - username, password
 
@@ -32,16 +32,19 @@ Pass the variables using the Key USERNAME, PASSWORD (or) ACCCESSKEY in a map.
 ```go
 client := whmcs.NewClient(nil, "https://www.wheesy.com/billing")
 
-accounts, _, err := client.Accounts.Create(map[string]string{"firstname": "willnorris"}) //Please refer the api, there are more fiels to be passed
+accounts, _, err := client.Accounts.Create(map[string]string{"firstname": "willnorris"})
+//Please refer the api, there are more fields to be passed
 
 ```
 
 ### To create an order for a client named  "willnorris":
 
 ```go
+
 client := whmcs.NewClient(nil, "https://www.wheesy.com/billing")
 
 accounts, _, err := client.Orders.Create(map[string]string{"firstname": "willnorris"})
+//Please refer the api, there are more fields to be passed
 ```
 
 ### To add a billable item for client  "willnorris":
@@ -50,7 +53,8 @@ accounts, _, err := client.Orders.Create(map[string]string{"firstname": "willnor
 client := whmcs.NewClient(nil, "https://www.wheesy.com/billing")
 
 accounts, _, err := client.Billables.Create(map[string]string{"firstname": "willnorris"})
-
+//Please refer the api, there are more fields to be passed
+```
 
 For complete usage of whmcs, see the full [package docs][].
 
@@ -59,12 +63,46 @@ For complete usage of whmcs, see the full [package docs][].
 The supported API are
 
 * clients
+- Add, Update, Suspend
+
 * orders
+- List, Get, Create
+
 * billableitem
+- Create
 
-We will keep adding more as we go along
+We will keep adding more as we go along, adding an API is very easy.
 
-## License ##
+### Documentation
 
-This library is distributed under the BSD-style license found in the [LICENSE](./LICENSE)
-file.
+Refer [documentation] (http://docs.megam.io)
+
+
+We are glad to help if you have questions, or request for new features..
+
+[twitter @megamsys](http://twitter.com/megamsys) [email support@megam.io](<support@megam.io>)
+
+
+
+
+# License
+
+
+|                      |                                          |
+|:---------------------|:-----------------------------------------|
+| **Author:**          | Ranjitha (<ranjithar@megam.ion>)
+| 	                   | KishorekumarNeelamegam (<nkishore@megam.io>)
+| **Copyright:**       | Copyright (c) 2013-2016 Megam Systems.
+| **License:**         | Apache License, Version 2.0
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
