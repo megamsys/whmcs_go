@@ -110,7 +110,7 @@ func (s *S) TestAccount(c *check.C) {
 	a := map[string]string{
 		"username":    "megamsys",
 		"password":    GetMD5Hash("megam"),
-		"accesskey":   "team4megam",
+		//"accesskey":   "team4megam",
 		"firstname":   "Jonathan",
 		"lastname":    "Philipos",
 		"email":       "jp@det.io",
