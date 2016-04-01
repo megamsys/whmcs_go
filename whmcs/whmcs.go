@@ -17,10 +17,10 @@
 package whmcs
 
 import (
-	"encoding/json"
+	//"encoding/json"
 	"errors"
 	"fmt"
-	"io"
+	//"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -137,12 +137,21 @@ func (c *Client) NewWRequest(dat map[string]string, action string) (*WRequest, e
 // returned from WHMCS and provides convenient access to things like
 // pagination links.
 type Response struct {
-	*http.Response
+	Status     string // e.g. "200 OK"
+    StatusCode int    // e.g. 200
+	Body string
+	ContentLength int64
 }
 
 // newResponse creates a new Response for the provided http.Response.
 func newResponse(r *http.Response) *Response {
-	response := &Response{Response: r}
+	body, _ := ioutil.ReadAll(r.Body)
+	response := &Response{
+		Status: r.Status,
+		StatusCode: r.StatusCode,
+		Body: string(body),
+		ContentLength: r.ContentLength,
+		}
 	return response
 }
 
@@ -161,28 +170,27 @@ func (c *Client) Do(req WRequest, v interface{}) (*Response, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	defer resp.Body.Close()
 
 	response := newResponse(resp)
-
-	err = CheckResponse(resp)
+	
+	err = CheckResponse(response)
 	if err != nil {
 		// even though there was an error, we still return the response
 		// in case the caller wants to inspect it further
 		return response, err
 	}
 
-	if v != nil {
+	/*if v != nil {
 		if w, ok := v.(io.Writer); ok {
-			io.Copy(w, resp.Body)
+			io.Copy(w, response.Body)
 		} else {
-			err = json.NewDecoder(resp.Body).Decode(v)
+			err = json.NewDecoder(response.Body).Decode(v)          
 			if err == io.EOF {
 				err = nil // ignore EOF errors caused by empty response body
 			}
 		}
-	}
+	}*/
 	return response, err
 }
 
@@ -277,16 +285,16 @@ func (e *Error) Error() string {
 // the 200 range.  API error responses are expected to have either no response
 // body, or a JSON response body that maps to ErrorResponse.  Any other
 // response body will be silently ignored.
-func CheckResponse(r *http.Response) error {
+func CheckResponse(r *Response) error {
 	if c := r.StatusCode; 200 <= c && c <= 299 {
 		return nil
 	}
-	errorResponse := &ErrorResponse{Response: r}
-	data, err := ioutil.ReadAll(r.Body)
-	if err == nil && data != nil {
-		json.Unmarshal(data, errorResponse)
-	}
-	return errorResponse
+	//errorResponse := &ErrorResponse{Response: r}
+	//data, err := ioutil.ReadAll(r.Body)
+	//if err == nil && data != nil {
+	//	json.Unmarshal(r.Body, errorResponse)
+	//}
+	return errors.New(r.Body)
 }
 
 // parseBoolResponse determines the boolean result from a WHMCS API response.
