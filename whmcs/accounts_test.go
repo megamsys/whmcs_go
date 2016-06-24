@@ -19,15 +19,17 @@ package whmcs
 import (
 	"bytes"
 	"crypto/md5"
+	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"gopkg.in/check.v1"
+	"io"
 	"net"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
-
-	"gopkg.in/check.v1"
 )
 
 func (s *S) TestAccount_marshall(c *check.C) {
@@ -98,7 +100,7 @@ func (s *S) TestAccountsService_Get_invalidUser(c *check.C) {
 }
 
 func (s *S) TestAccount(c *check.C) {
-	addr := strings.Join([]string{"103.56.92.20", strconv.Itoa(80)}, ":")
+	addr := strings.Join([]string{"138.201.98.13", strconv.Itoa(80)}, ":")
 	_, err := net.Dial("tcp", addr)
 	c.Assert(err, check.IsNil)
 	//	if err == nil {
@@ -106,28 +108,49 @@ func (s *S) TestAccount(c *check.C) {
 	//	}
 	//	defer conn.Close()
 
-	client := NewClient(nil, "http://103.56.92.20/whmcs/")
+	client := NewClient(nil, "http://138.201.98.13/whmcs/")
 	a := map[string]string{
-		"username":    "megamsys",
-		"password":    GetMD5Hash("megam"),
+		"username": "megamsys",
+		"password": GetMD5Hash("megam"),
 		//"accesskey":   "team4megam",
-		"firstname":   "Jonathan",
-		"lastname":    "Philipos",
-		"email":       "jp@det.io",
-		"address1":    "Panara",
-		"city":        "Western sydney",
-		"state":       "Sydney",
-		"postcode":    "00001",
-		"country":     "AU",
-		"phonenumber": "981999000",
-		"password2":   "temp4det",
+		"firstname":    "exam",
+		"lastname":     "m",
+		"email":        "test@det.io",
+		"address1":     "Panara",
+		"city":         "Western sydney",
+		"state":        "Sydney",
+		"postcode":     "00001",
+		"country":      "AU",
+		"phonenumber":  "981999000",
+		"password2":    "temp4det",
+		"customfields": GetBase64(map[string]string{"vertice_email": "test@megam.io", "vertice_apikey": "e3a53c09f387409590082cd628a0347c53043a48"}),
 	}
 	_, _, err = client.Accounts.Create(a)
 	c.Assert(err, check.IsNil)
 }
 
 func GetMD5Hash(text string) string {
-    hasher := md5.New()
-    hasher.Write([]byte(text))
-    return hex.EncodeToString(hasher.Sum(nil))
+	hasher := md5.New()
+	hasher.Write([]byte(text))
+	return hex.EncodeToString(hasher.Sum(nil))
+}
+func GetBase64(dummymap map[string]string) string {
+	var dummyVar string
+	for key, value := range dummymap {
+		klen := strconv.Itoa(len(key))
+		vlen := strconv.Itoa(len(value))
+		dummyVar += "s:" + klen + ":" + strconv.Quote(key) + ";" + "s:" + vlen + ":" + strconv.Quote(value) + ";"
+	}
+	kvlen := strconv.Itoa(len(dummymap))
+	dummyVar1 := "a:" + kvlen + ":" + "{" + dummyVar + "}"
+
+	input := []byte(dummyVar1)
+	var outBuffer bytes.Buffer
+	writer := io.MultiWriter(&outBuffer, os.Stdout)
+	encoder := base64.NewEncoder(base64.StdEncoding, writer)
+	encoder.Write(input)
+	encoder.Close()
+	res := outBuffer.String()
+
+	return res
 }

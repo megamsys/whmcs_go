@@ -173,7 +173,7 @@ func (c *Client) Do(req WRequest, v interface{}) (*Response, error) {
 	defer resp.Body.Close()
 
 	response := newResponse(resp)
-	
+
 	err = CheckResponse(response)
 	if err != nil {
 		// even though there was an error, we still return the response
@@ -185,7 +185,7 @@ func (c *Client) Do(req WRequest, v interface{}) (*Response, error) {
 		if w, ok := v.(io.Writer); ok {
 			io.Copy(w, response.Body)
 		} else {
-			err = json.NewDecoder(response.Body).Decode(v)          
+			err = json.NewDecoder(response.Body).Decode(v)
 			if err == io.EOF {
 				err = nil // ignore EOF errors caused by empty response body
 			}

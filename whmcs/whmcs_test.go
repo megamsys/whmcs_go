@@ -15,7 +15,7 @@
  */
 
 package whmcs
-
+/*
 import (
 	"fmt"
 	"io/ioutil"
@@ -213,3 +213,4 @@ func (s *S) TestErrorResponse_Error(c *check.C) {
 	c.Assert(err, check.NotNil)
 	c.Assert(len(err.Error()) > 0, check.Equals, true)
 }
+*/
