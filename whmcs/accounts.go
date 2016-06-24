@@ -36,6 +36,7 @@ type Account struct {
 	Country     *string `json:"country"`
 	PhoneNumber *string `json:"phonenumber"`
 	Password    *string `json:"password2"`
+	Customfields *string `json:"customfields"`
 	Status      *string `json:"status"`
 }
 
