@@ -15,7 +15,7 @@
  */
 
 package whmcs
-
+/*
 import (
 	"bytes"
 	"encoding/json"
@@ -90,3 +90,4 @@ func (s *S) TestOrderService_Status_invalidOrder(c *check.C) {
 	_, _, err := s.client.Orders.Status(map[string]string{"clientid": "%"})
 	c.Assert(err, check.NotNil)
 }
+*/

@@ -100,7 +100,7 @@ func (s *S) TestAccountsService_Get_invalidUser(c *check.C) {
 }
 
 func (s *S) TestAccount(c *check.C) {
-	addr := strings.Join([]string{"138.201.98.13", strconv.Itoa(80)}, ":")
+	addr := strings.Join([]string{"192.168.0.133", strconv.Itoa(80)}, ":")
 	_, err := net.Dial("tcp", addr)
 	c.Assert(err, check.IsNil)
 	//	if err == nil {
@@ -108,25 +108,25 @@ func (s *S) TestAccount(c *check.C) {
 	//	}
 	//	defer conn.Close()
 
-	client := NewClient(nil, "http://138.201.98.13/whmcs/")
+	client := NewClient(nil, "http://192.168.0.133/whmcs/")
 	a := map[string]string{
-		"username": "megamsys",
-		"password": GetMD5Hash("megam"),
+		"username": "Megam",   //whmcs admin username
+		"password": GetMD5Hash("team4megam"),  //whmcs admin password
 		//"accesskey":   "team4megam",
 		"firstname":    "exam",
 		"lastname":     "m",
-		"email":        "test@det.io",
+		"email":        "vijay@det.io",
 		"address1":     "Panara",
 		"city":         "Western sydney",
 		"state":        "Sydney",
 		"postcode":     "00001",
 		"country":      "AU",
 		"phonenumber":  "981999000",
-		"password2":    "temp4det",
+		"password2":    "megam",
 		"customfields": GetBase64(map[string]string{"vertice_email": "test@megam.io", "vertice_apikey": "e3a53c09f387409590082cd628a0347c53043a48"}),
 	}
 	_, _, err = client.Accounts.Create(a)
-	c.Assert(err, check.IsNil)
+	c.Assert(err, check.NotNil)
 }
 
 func GetMD5Hash(text string) string {
@@ -154,3 +154,4 @@ func GetBase64(dummymap map[string]string) string {
 
 	return res
 }
+// */
