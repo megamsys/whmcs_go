@@ -1,8 +1,10 @@
 # whmcs #
 
-whmcs is a Go client library for accessing the [WHMCS billing system][].
+whmcs is a Go client library for accessing the [WHMCS billing system][http://www.whmcs.com].
 
 **Documentation:**
+
+This is an enterprise addon for *MegamVertice*. Read [docs.megam.io](https://docs.megam.io) for more information.
 
 whmcs requires Go version 1.6 or greater.
 
