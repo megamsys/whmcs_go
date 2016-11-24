@@ -138,7 +138,7 @@ func (c *Client) NewWRequest(dat map[string]string, action string) (*WRequest, e
 // pagination links.
 type Response struct {
 	Status     string // e.g. "200 OK"
-    StatusCode int    // e.g. 200
+  StatusCode int    // e.g. 200
 	Body string
 	ContentLength int64
 }

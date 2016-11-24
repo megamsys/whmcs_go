@@ -20,8 +20,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"net"
 	"net/http"
-
+  "strings"
+	"strconv"
 	"gopkg.in/check.v1"
 )
 
@@ -79,4 +81,28 @@ func (s *S) TestBillableService_Create_specifiedOrder(c *check.C) {
 func (s *S) TestBillableService_Create_invalidOrder(c *check.C) {
 	_, _, err := s.client.Billables.Create(map[string]string{"clientid": "%"})
 	c.Assert(err, check.NotNil)
+}
+
+func (s *S) TestBillableService_Create(c *check.C) {
+	addr := strings.Join([]string{"192.168.0.133", strconv.Itoa(80)}, ":")
+	_, err := net.Dial("tcp", addr)
+	c.Assert(err, check.IsNil)
+	//	if err == nil {
+	//		c.Skip("WHMCS isn't running. You can't rest it live.")
+	//	}
+	//	defer conn.Close()
+	client := NewClient(nil, "http://192.168.0.133/whmcs/")
+	a := map[string]string{
+		"username":      "Megam",
+		"password":      GetMD5Hash("team4megam"),
+		"clientid":      "67",
+		"description":   "testing billableitems",
+		"hours":         "1",
+		"amount":        "0.3",
+		"invoiceaction": "nextcron",
+	}
+	fmt.Println(client)
+	_, _, err = client.Billables.Create(a)
+		c.Assert(err, check.IsNil)
+
 }
