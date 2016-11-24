@@ -166,7 +166,7 @@ func (c *Client) Do(req WRequest, v interface{}) (*Response, error) {
 		return nil, err
 	}
  fmt.Println("--- " + url.String())
-	resp, err := c.client.PostForm(url.String()+"?accesskey=3b8eb672aa7c8db82e5d34a0744740b20ed59e1f6814cfb63364040b0994ee3f", *req.data)
+	resp, err := c.client.PostForm(url.String()+"?accesskey=team4megam", *req.data)
 	if err != nil {
 		return nil, err
 	}
