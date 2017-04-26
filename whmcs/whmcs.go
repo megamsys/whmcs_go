@@ -20,7 +20,7 @@ import (
 	//"encoding/json"
 	"errors"
 	"fmt"
-	//"io"
+	"crypto/tls"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -102,7 +102,7 @@ func addFormValues(opt map[string]string) *url.Values {
 // for you (such as that provided by the golang.org/x/oauth2 library).
 func NewClient(httpClient *http.Client, defaultBaseURL string) *Client {
 	if httpClient == nil {
-		httpClient = http.DefaultClient
+		httpClient = &http.Client{Transport: &http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}}}
 	}
 	baseURL, _ := url.Parse(defaultBaseURL)
 
@@ -166,7 +166,7 @@ func (c *Client) Do(req WRequest, v interface{}) (*Response, error) {
 		return nil, err
 	}
  fmt.Println("--- " + url.String())
-	resp, err := c.client.PostForm(url.String()+"?accesskey=team4megam", *req.data)
+	resp, err := c.client.PostForm(url.String(), *req.data)
 	if err != nil {
 		return nil, err
 	}
