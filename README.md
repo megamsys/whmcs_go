@@ -4,7 +4,7 @@ whmcs is a Go client library for accessing the [WHMCS billing system][http://www
 
 **Documentation:**
 
-This is an enterprise addon for *MegamVertice*. Read [docs.megam.io](https://docs.megam.io) for more information.
+This is an enterprise addon for *MegamVertice*. Read [docs.megam.io](https://megam.io) for more information.
 
 whmcs requires Go version 1.6 or greater.
 
@@ -74,7 +74,7 @@ We will keep adding more as we go along, adding an API is very easy.
 
 ### Documentation
 
-Refer [documentation] (http://docs.megam.io)
+Refer [documentation] (https://megam.io)
 
 
 We are glad to help if you have questions, or request for new features..
@@ -89,7 +89,7 @@ We are glad to help if you have questions, or request for new features..
 
 |                      |                                          |
 |:---------------------|:-----------------------------------------|
-| **Author:**          | Ranjitha (<ranjithar@megam.ion>)
+| **Author:**          | Ranjitha (<ranjithar@megam.io>)
 | 	                   | KishorekumarNeelamegam (<nkishore@megam.io>)
 | **Copyright:**       | Copyright (c) 2013-2016 Megam Systems.
 | **License:**         | Apache License, Version 2.0
